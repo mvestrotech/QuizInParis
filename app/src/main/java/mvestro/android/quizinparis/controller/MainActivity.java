@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         mPlayButton.setEnabled(false);
 
-        greetUser();
-
         mNameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 mPreferences.edit().putString(PREF_KEY_FIRSTNAME, mUser.getFirstname()).apply();
 
                 // User clicked the button
-                Intent gameActivityIntent = new Intent(MainActivity.this, GameActivity.class);
-                startActivityForResult(gameActivityIntent, GAME_ACTIVITY_REQUEST_CODE);
+                Intent gridActivityIntent = new Intent(MainActivity.this, GridActivity.class);
+                startActivity(gridActivityIntent);
             }
         });
     }
@@ -87,23 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
             mPreferences.edit().putInt(PREF_KEY_SCORE, score).apply();
 
-            greetUser();
-        }
-    }
-
-    private void greetUser() {
-        String firstname = mPreferences.getString(PREF_KEY_FIRSTNAME, null);
-
-        if (null != firstname) {
-            int score = mPreferences.getInt(PREF_KEY_SCORE, 0);
-
-            String fulltext = "Welcome back, " + firstname
-                    + "!\nYour last score was " + score
-                    + ", will you do better this time?";
-            mGreetingText.setText(fulltext);
-            mNameInput.setText(firstname);
-            mNameInput.setSelection(firstname.length());
-            mPlayButton.setEnabled(true);
         }
     }
 
