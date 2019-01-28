@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mvestro.android.quizinparis.R;
 import mvestro.android.quizinparis.model.Question;
@@ -21,6 +24,7 @@ import mvestro.android.quizinparis.model.QuestionBank;
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mQuestionTextView;
+    private ProgressBar mProgressBar;
     private Button mAnswerButton1;
     private Button mAnswerButton2;
     private Button mAnswerButton3;
@@ -31,6 +35,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int mScore;
     private int mNumberOfQuestions;
+    private int counter;
 
     public static final String BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE";
     public static final String BUNDLE_STATE_SCORE = "currentScore";
@@ -59,6 +64,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         // Wire widgets
         mQuestionTextView = (TextView) findViewById(R.id.activity_game_question_text);
+        mProgressBar = findViewById(R.id.activity_game_progressbar);
         mAnswerButton1 = (Button) findViewById(R.id.activity_game_answer1_btn);
         mAnswerButton2 = (Button) findViewById(R.id.activity_game_answer2_btn);
         mAnswerButton3 = (Button) findViewById(R.id.activity_game_answer3_btn);
@@ -77,6 +83,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         mCurrentQuestion = mQuestionBank.getQuestion();
         this.displayQuestion(mCurrentQuestion);
+        this.Timer();
+
     }
 
     @Override
@@ -87,17 +95,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(outState);
     }
 
+
+
     @Override
     public void onClick(View v) {
         int responseIndex = (int) v.getTag();
 
         if (responseIndex == mCurrentQuestion.getAnswerIndex()) {
             // Good answer
-            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Correct" + mNumberOfQuestions, Toast.LENGTH_SHORT).show();
             mScore++;
         } else {
             // Wrong answer
-            Toast.makeText(this, "Faux", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faux"+ mNumberOfQuestions, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -119,6 +129,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }, 2000); // LENGTH_SHORT is usually 2 second long
+    }
+
+    private void Timer() {
+        final Timer t = new Timer();
+        TimerTask tt = new TimerTask(){
+
+            @Override
+            public void run() {
+                counter++;
+                mProgressBar.setProgress(counter);
+                if(counter == 100){
+                    t.cancel();
+                }
+            }
+        };
+        t.schedule(tt, 0 , 100);
     }
 
     @Override
