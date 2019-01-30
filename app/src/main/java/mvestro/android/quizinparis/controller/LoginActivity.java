@@ -73,15 +73,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void remoteLogin(String username, String password){
         ProgressDialog pDialog = new ProgressDialog(this);
-        String urlString = "http://172.30.46.136/iot-server/api/login.php?key=iot1235&username="+username+"&password="+password;
+        String urlString = "http://mvestrotech.tech/api/login.php?key=iot1235&username="+username+"&password="+password;
         Ion.with(this).load(urlString).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
                 Log.d("test", result.toString());
                 if(result.get("id") != null){
-
                     Friend me = (Friend) Friend.getFriendFromJson(result);
-                    Intent intent = new Intent(LoginActivity.this, GridActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(),
