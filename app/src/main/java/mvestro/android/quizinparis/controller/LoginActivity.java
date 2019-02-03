@@ -35,8 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         mIdLogin = (TextView) findViewById(R.id.activity_login_id_input);
         mPasswordLogin = (TextView) findViewById(R.id.activity_login_password_input);
         mValidateBtn = (Button) findViewById(R.id.activity_login_validate_btn);
-        password = "root";
-        ID = "root";
 
         mValidateBtn.setEnabled(false);
 
@@ -84,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(),
-                            "pas bon id", Toast.LENGTH_LONG).show();
+                            "Identifiant/Mot de passe inconnue", Toast.LENGTH_LONG).show();
                 }
             }
         });

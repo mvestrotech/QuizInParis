@@ -12,10 +12,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="264dp"
-            app:srcCompat="@android:drawable/ic_lock_lock" />
+            android:layout_height="263dp"
+            app:srcCompat="@drawable/ic_baseline_lock_24px" />
 
         <EditText
             android:id="@+id/activity_login_id_input"
@@ -24,7 +24,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingTop="20dp"
-            android:hint="ID" />
+            android:hint="Identifiant" />
 
         <EditText
             android:id="@+id/activity_login_password_input"
@@ -33,7 +33,7 @@
             android:ems="10"
             android:inputType="textPassword"
             android:paddingTop="20dp"
-            android:hint="Password" />
+            android:hint="Mot de passe" />
 
         <Button
             android:id="@+id/activity_login_validate_btn"

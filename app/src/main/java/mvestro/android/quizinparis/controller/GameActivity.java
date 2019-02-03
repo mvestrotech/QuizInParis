@@ -83,7 +83,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         mCurrentQuestion = mQuestionBank.getQuestion();
         this.displayQuestion(mCurrentQuestion);
-        this.Timer();
 
     }
 
@@ -129,22 +128,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }, 2000); // LENGTH_SHORT is usually 2 second long
-    }
-
-    private void Timer() {
-        final Timer t = new Timer();
-        TimerTask tt = new TimerTask(){
-
-            @Override
-            public void run() {
-                counter++;
-                mProgressBar.setProgress(counter);
-                if(counter == 100){
-                    t.cancel();
-                }
-            }
-        };
-        t.schedule(tt, 0 , 100);
     }
 
     @Override
