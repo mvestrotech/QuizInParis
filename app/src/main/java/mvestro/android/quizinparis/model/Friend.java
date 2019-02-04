@@ -1,10 +1,8 @@
-package mvestro.android.quizinparis.controller;
+package mvestro.android.quizinparis.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class Friend {
     int id;

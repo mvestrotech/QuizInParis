@@ -18,6 +18,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import mvestro.android.quizinparis.R;
+import mvestro.android.quizinparis.model.Friend;
 
 public class LoginActivity extends AppCompatActivity {
 
