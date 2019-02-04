@@ -1,6 +1,13 @@
 package mvestro.android.quizinparis.controller;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -10,17 +17,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import mvestro.android.quizinparis.R;
+import mvestro.android.quizinparis.RetrieveDataTask;
 import mvestro.android.quizinparis.fragment.FriendFragment;
 import mvestro.android.quizinparis.fragment.GridFragment;
+import mvestro.android.quizinparis.fragment.TemperatureFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    public static String TAG;
 
 
     @Override
@@ -39,8 +51,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
 
     }
 
@@ -91,6 +101,10 @@ public class MainActivity extends AppCompatActivity
 
             fragment = new FriendFragment();
 
+        } else if (id == R.id.nav_sensor) {
+
+            fragment = new TemperatureFragment();
+
         }
 
         if (fragment != null ) {
@@ -105,5 +119,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
+            Log.i(TAG, "Bluetooth is enabled.");
+        } else {
+            Log.i(TAG, "Bluetooth must be enable.");
+        }
     }
 }

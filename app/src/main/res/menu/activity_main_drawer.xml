@@ -12,6 +12,10 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_baseline_contacts_24px"
             android:title="Contacts" />
+        <item
+            android:id="@+id/nav_sensor"
+            android:icon="@drawable/ic_network_check_black_24dp"
+            android:title="Sensor" />
     </group>
 
 <!--    <item android:title="Communicate">
