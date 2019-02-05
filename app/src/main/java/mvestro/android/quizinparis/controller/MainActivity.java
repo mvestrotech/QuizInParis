@@ -24,9 +24,11 @@ import android.widget.Toast;
 
 import mvestro.android.quizinparis.R;
 import mvestro.android.quizinparis.RetrieveDataTask;
+import mvestro.android.quizinparis.fragment.CameraFragment;
 import mvestro.android.quizinparis.fragment.FriendFragment;
 import mvestro.android.quizinparis.fragment.GridFragment;
 import mvestro.android.quizinparis.fragment.TemperatureFragment;
+import mvestro.android.quizinparis.fragment.VideoFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -104,6 +106,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_sensor) {
 
             fragment = new TemperatureFragment();
+
+        }else if (id == R.id.nav_video) {
+
+            fragment = new VideoFragment();
+
+        }else if (id == R.id.nav_qr_code) {
+
+            fragment = new CameraFragment();
 
         }
 

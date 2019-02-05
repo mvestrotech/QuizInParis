@@ -16,6 +16,14 @@
             android:id="@+id/nav_sensor"
             android:icon="@drawable/ic_network_check_black_24dp"
             android:title="Sensor" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@drawable/ic_network_check_black_24dp"
+            android:title="video" />
+        <item
+            android:id="@+id/nav_qr_code"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="QR code" />
     </group>
 
 <!--    <item android:title="Communicate">

@@ -32,7 +32,6 @@ public class FriendFragment extends Fragment {
 
     private String TAG = FriendFragment.class.getSimpleName();
     private ListView lv;
-    private String url_img = "http://mvestrotech.tech/profiles/Nicolas-Gar.jpg";
 
     ArrayList<HashMap<String, String>> contactList;
 
@@ -71,20 +70,19 @@ public class FriendFragment extends Fragment {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "https://api.myjson.com/bins/1dpcjw";
+            String url = "http://mvestrotech.tech/api/getFriends.php?key=iot1235";
             String jsonStr = sh.makeServiceCall(url);
 
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
                     // Getting JSON Array node
-                    JSONArray contacts = jsonObj.getJSONArray("contacts");
+                    JSONArray jsonObj = new JSONArray(jsonStr);
+
 
                     // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
-                        JSONObject c = contacts.getJSONObject(i);
+                    for (int i = 0; i < jsonObj.length(); i++) {
+                        JSONObject c = jsonObj.getJSONObject(i);
                         String id = c.getString("id");
                         String firstName = c.getString("first_name");
                         String lastName = c.getString("last_name");

@@ -26,7 +26,7 @@ public class RetrieveDataTask extends AsyncTask<Void, Void, TemperatureSensorDat
 
     Activity activity;
     ProgressDialog pDialog;
-    Dialog mDialog:
+    Dialog mDialog;
 
     public BluetoothAdapter btAdapter;
 
