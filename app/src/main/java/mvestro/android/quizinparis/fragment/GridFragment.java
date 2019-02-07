@@ -42,6 +42,8 @@ public class GridFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_grid, container, false);
+        Button ArrayButton[] = null;
+        String arr;
 
         mBtnP1 = (Button) view.findViewById(R.id.activity_paris_1);
         mBtnP2 = (Button) view.findViewById(R.id.activity_paris_2);
@@ -64,11 +66,31 @@ public class GridFragment extends Fragment {
         mBtnP19 = (Button) view.findViewById(R.id.activity_paris_19);
         mBtnP20 = (Button) view.findViewById(R.id.activity_paris_20);
 
-        mBtnP1.setOnClickListener(new View.OnClickListener() {
+
+        mBtnP7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
+                String arrId = "7";
+                gameActivityIntent.putExtra("ARR", arrId);
+                startActivity(gameActivityIntent);
+            }
+        });
+        mBtnP8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
+                String arrId = "8";
+                gameActivityIntent.putExtra("ARR", arrId);
+                startActivity(gameActivityIntent);
+            }
+        });
+        mBtnP18.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
+                String arrId = "18";
+                gameActivityIntent.putExtra("ARR", arrId);
                 startActivity(gameActivityIntent);
             }
         });

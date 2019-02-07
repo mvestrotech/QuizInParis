@@ -1,28 +1,46 @@
 package mvestro.android.quizinparis.controller;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mvestro.android.quizinparis.R;
+import mvestro.android.quizinparis.fragment.FriendFragment;
+import mvestro.android.quizinparis.model.Friend;
+import mvestro.android.quizinparis.model.HttpHandler;
 import mvestro.android.quizinparis.model.Question;
 import mvestro.android.quizinparis.model.QuestionBank;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private String TAG = FriendFragment.class.getSimpleName();
     private TextView mQuestionTextView;
     private ProgressBar mProgressBar;
     private Button mAnswerButton1;
@@ -43,6 +61,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean mEnableTouchEvents;
 
+    ArrayList<HashMap<String, String>> questionList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,199 +70,146 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         System.out.println("GameActivity::onCreate()");
 
-        mQuestionBank = this.generateQuestions();
+        Bundle arr = getIntent().getExtras();
+        String val_arr = arr.getString("ARR");
+        new GetQuestion().execute();
+        new GetResponse().execute();
 
-        if (savedInstanceState != null) {
-            mScore = savedInstanceState.getInt(BUNDLE_STATE_SCORE);
-            mNumberOfQuestions = savedInstanceState.getInt(BUNDLE_STATE_QUESTION);
-        } else {
-            mScore = 0;
-            mNumberOfQuestions = 4;
+    }
+    public void getQuestion(){
+        ProgressDialog pDialog = new ProgressDialog(this);
+        String urlString = "http://mvestrotech.tech/api/getQuestion.php?key=iot1235";
+        Ion.with(this).load(urlString).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                result.get("id");
+            }
+        });
+    }
+
+    private class GetQuestion extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
-        mEnableTouchEvents = true;
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "http://mvestrotech.tech/api/getQuestion.php";
+            String jsonStr = sh.makeServiceCall(url);
 
-        // Wire widgets
-        mQuestionTextView = (TextView) findViewById(R.id.activity_game_question_text);
-        mProgressBar = findViewById(R.id.activity_game_progressbar);
-        mAnswerButton1 = (Button) findViewById(R.id.activity_game_answer1_btn);
-        mAnswerButton2 = (Button) findViewById(R.id.activity_game_answer2_btn);
-        mAnswerButton3 = (Button) findViewById(R.id.activity_game_answer3_btn);
-        mAnswerButton4 = (Button) findViewById(R.id.activity_game_answer4_btn);
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    // Getting JSON Array node
+                    JSONArray jsonObj = new JSONArray(jsonStr);
 
-        // Use the tag property to 'name' the buttons
-        mAnswerButton1.setTag(0);
-        mAnswerButton2.setTag(1);
-        mAnswerButton3.setTag(2);
-        mAnswerButton4.setTag(3);
 
-        mAnswerButton1.setOnClickListener(this);
-        mAnswerButton2.setOnClickListener(this);
-        mAnswerButton3.setOnClickListener(this);
-        mAnswerButton4.setOnClickListener(this);
+                    // looping through All Contacts
+                    for (int i = 0; i < jsonObj.length(); i++) {
 
-        mCurrentQuestion = mQuestionBank.getQuestion();
-        this.displayQuestion(mCurrentQuestion);
+
+                        JSONObject c = jsonObj.getJSONObject(i);
+                        String zone = c.getString("zone");
+                        Bundle arr = getIntent().getExtras();
+                        String val_arr = arr.getString("ARR");
+
+                        if(zone.equals(val_arr)){
+                            String laquestion = c.getString("question");
+
+                            TextView textViewQuestion = (TextView)findViewById(R.id.activity_game_question_text);
+                            textViewQuestion.setText(laquestion);
+                            break;
+                        }else{
+                            TextView textViewQuestion = (TextView)findViewById(R.id.activity_game_question_text);
+                            textViewQuestion.setText("pas bon");
+                        }
+                    }
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    TextView textViewQuestion = (TextView)findViewById(R.id.activity_game_question_text);
+                    textViewQuestion.setText("erreur");
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+            }
+
+            return null;
+        }
+
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(BUNDLE_STATE_SCORE, mScore);
-        outState.putInt(BUNDLE_STATE_QUESTION, mNumberOfQuestions);
+    private class GetResponse extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-        super.onSaveInstanceState(outState);
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "http://mvestrotech.tech/api/getResponse.php";
+            String jsonStr = sh.makeServiceCall(url);
+
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    // Getting JSON Array node
+                    JSONArray jsonObj = new JSONArray(jsonStr);
+                    int j = 0;
+                    for (int i = 0; i < jsonObj.length(); i++) {
+                        // looping through All Contacts
+                        Bundle arr = getIntent().getExtras();
+                        String val_arr = arr.getString("ARR");
+                        JSONObject c = jsonObj.getJSONObject(i);
+                        String id = c.getString("id");
+                        String zone = c.getString("zone");
+                        String rep = c.getString("response");
+                        TextView textViewreponse;
+                        if(zone.equals(val_arr)){
+                            switch(j){
+                                case 0: textViewreponse = (TextView)findViewById(R.id.activity_game_answer1_btn);
+                                    textViewreponse.setText(rep);
+                                    break;
+                                case 1: textViewreponse = (TextView)findViewById(R.id.activity_game_answer2_btn);
+                                    textViewreponse.setText(rep);
+                                    break;
+                                case 2: textViewreponse = (TextView)findViewById(R.id.activity_game_answer3_btn);
+                                    textViewreponse.setText(rep);
+                                    break;
+                            }
+                            j++;
+                        }
+
+
+                    }
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    TextView textViewQuestion = (TextView)findViewById(R.id.activity_game_answer1_btn);
+                    textViewQuestion.setText("erreur");
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+            }
+
+            return null;
+        }
+
+
     }
-
-
 
     @Override
     public void onClick(View v) {
-        int responseIndex = (int) v.getTag();
 
-        if (responseIndex == mCurrentQuestion.getAnswerIndex()) {
-            // Good answer
-            Toast.makeText(this, "Correct" + mNumberOfQuestions, Toast.LENGTH_SHORT).show();
-            mScore++;
-        } else {
-            // Wrong answer
-            Toast.makeText(this, "Faux"+ mNumberOfQuestions, Toast.LENGTH_SHORT).show();
-
-        }
-
-        mEnableTouchEvents = false;
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mEnableTouchEvents = true;
-
-                // If this is the last question, ends the game.
-                // Else, display the next question.
-                if (--mNumberOfQuestions == 0) {
-                    // End the game
-                    endGame();
-                } else {
-                    mCurrentQuestion = mQuestionBank.getQuestion();
-                    displayQuestion(mCurrentQuestion);
-                }
-            }
-        }, 2000); // LENGTH_SHORT is usually 2 second long
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return mEnableTouchEvents && super.dispatchTouchEvent(ev);
-    }
-
-    private void endGame() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Well done!")
-                .setMessage("Your score is " + mScore)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // End the activity
-                        Intent intent = new Intent();
-                        intent.putExtra(BUNDLE_EXTRA_SCORE, mScore);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                })
-                .setCancelable(false)
-                .create()
-                .show();
-    }
-
-    private void displayQuestion(final Question question) {
-        mQuestionTextView.setText(question.getQuestion());
-        mAnswerButton1.setText(question.getChoiceList().get(0));
-        mAnswerButton2.setText(question.getChoiceList().get(1));
-        mAnswerButton3.setText(question.getChoiceList().get(2));
-        mAnswerButton4.setText(question.getChoiceList().get(3));
-    }
-
-    private QuestionBank generateQuestions() {
-        Question question1 = new Question("Quel célèbre dictateur dirigea l’URSS du milieu des années 1920 à 1953 ?",
-                Arrays.asList("Trotski", "Lénine", "Staline", "Molotov"),
-                2);
-
-        Question question2 = new Question("Dans quel pays peut-on trouver la Catalogne, l’Andalousie et la Castille ?",
-                Arrays.asList("L'Espagne", "L'Italie", "Le Portugal", "La France"),
-                0);
-
-        Question question3 = new Question("De quelle ville française le cannelé est-il une spécialité ?",
-                Arrays.asList("Toulouse", "Marseille", "Nante", "Bordeaux"),
-                3);
-
-        Question question4 = new Question("À qui doit-on la chanson “ I Shot the Sheriff” ?",
-                Arrays.asList("Bob Marley", "Eric Clapton", "UB40", "Jim Morrison"),
-                0);
-
-        Question question5 = new Question("Quel pays a remporté la coupe du monde de football en 2018 ?",
-                Arrays.asList("L'argentine", "L'Italie", "Le Brésil", "La France"),
-                3);
-
-        Question question6 = new Question("Qui était le dieu de la guerre dans la mythologie grecque ? ",
-                Arrays.asList("Apollon", "Arès", "Hermès", "Hadès"),
-                1);
-
-        Question question7 = new Question("Dans quelle ville italienne se situe l’action de la pièce de Shakespeare “Roméo et Juliette” ?",
-                Arrays.asList("Milan", "Vérone", "Rome", "Venise"),
-                1);
-
-        Question question8 = new Question("Par quel mot désigne-t-on une belle-mère cruelle ? ",
-                Arrays.asList("Une jocrisse", "Une chenapan", "Une godiche", "Une marâtre"),
-                3);
-
-        Question question9 = new Question("Parmi les animaux suivants, lequel peut se déplacer le plus rapidement ? ",
-                Arrays.asList("Le chevreuil", "Le guépard", "Le springbok", "Le léopard"),
-                1);
-
-        return new QuestionBank(Arrays.asList(question1,
-                question2,
-                question3,
-                question4,
-                question5,
-                question6,
-                question7,
-                question8,
-                question9));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        System.out.println("GameActivity::onStart()");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        System.out.println("GameActivity::onResume()");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        System.out.println("GameActivity::onPause()");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        System.out.println("GameActivity::onStop()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        System.out.println("GameActivity::onDestroy()");
     }
 }

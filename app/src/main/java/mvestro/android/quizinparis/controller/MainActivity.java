@@ -1,11 +1,7 @@
 package mvestro.android.quizinparis.controller;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,11 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import mvestro.android.quizinparis.R;
-import mvestro.android.quizinparis.RetrieveDataTask;
-import mvestro.android.quizinparis.fragment.CameraFragment;
 import mvestro.android.quizinparis.fragment.FriendFragment;
 import mvestro.android.quizinparis.fragment.GridFragment;
 import mvestro.android.quizinparis.fragment.TemperatureFragment;
@@ -110,10 +103,6 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_video) {
 
             fragment = new VideoFragment();
-
-        }else if (id == R.id.nav_qr_code) {
-
-            fragment = new CameraFragment();
 
         }
 

@@ -96,7 +96,6 @@ public class FriendFragment extends Fragment {
                         contact.put("id", id);
                         contact.put("score", lastScore);
                         contact.put("name", lastName + " " + firstName);
-//                        contact.put("mobile", gender);
 
                         // adding contact to contact list
                         contactList.add(contact);
