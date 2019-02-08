@@ -19,7 +19,7 @@
     - pour lancer une vidéo par ip cliquez sur l'option Caméra du drawer
     
 #### Quiz
-    Vour lancer le jeux cliquez sur le bouton Play
+    Vour lancez le jeux cliquez sur le bouton Play
     Voous serez redirigé vers une nouvelle activité qui vous affichera des questions au fur et a mesure
     Lorsque vous répondez à une question vous aurez un message qui vous inequera si vous avez répondu bon
     Vous aurez une série de 4 questions
