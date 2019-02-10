@@ -1,7 +1,9 @@
-package mvestro.android.quizinparis.model;
+package mvestro.android.quizinparis.services;
 
 import java.util.Collections;
 import java.util.List;
+
+import mvestro.android.quizinparis.model.Question;
 
 public class QuestionBank {
     private List<Question> mQuestionList;

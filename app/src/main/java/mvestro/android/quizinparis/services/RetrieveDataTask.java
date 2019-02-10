@@ -1,36 +1,24 @@
-package mvestro.android.quizinparis;
+package mvestro.android.quizinparis.services;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mvestro.android.quizinparis.controller.MainActivity;
-import mvestro.android.quizinparis.fragment.GridFragment;
-import mvestro.android.quizinparis.fragment.TemperatureFragment;
-import mvestro.android.quizinparis.model.TemperatureSensorData;
-import mvestro.android.quizinparis.services.GattSensorReader;
-import mvestro.android.quizinparis.services.ISensorReader;
+import mvestro.android.quizinparis.R;
 
-import static mvestro.android.quizinparis.controller.MainActivity.TAG;
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class RetrieveDataTask extends AsyncTask<Void, Void, TemperatureSensorData> {
 
     Activity activity;
     ProgressDialog pDialog;
-    Dialog mDialog;
+    public static String TAG = "SENSOR";
 
     public BluetoothAdapter btAdapter;
-
-    Fragment fragment;
 
     public  RetrieveDataTask(Activity activity, BluetoothAdapter btAdapter) {this.activity = activity; this.btAdapter = btAdapter;}
 
@@ -67,6 +55,8 @@ public class RetrieveDataTask extends AsyncTask<Void, Void, TemperatureSensorDat
         if (temperatureSensorData == null){
 //            Toast.makeText(activity, Double.toString(temperatureSensorData.temperature), Toast.LENGTH_LONG);
 //            Toast.makeText(,"Impossible de joindre", Toast.LENGTH_LONG);
+            Log.e(TAG, "erreur");
+            Toast.makeText(activity, "imposible", LENGTH_SHORT);
 
 
         } else {
@@ -77,8 +67,8 @@ public class RetrieveDataTask extends AsyncTask<Void, Void, TemperatureSensorDat
             textViewTemp.setText(String.valueOf(temperatureSensorData.temperature) + "°C");
             textViewHum.setText(String.valueOf(temperatureSensorData.humidity) + "%");
             textViewPow.setText(String.valueOf(temperatureSensorData.power) + "%");
-            return;
         }
+        return;
 
     }
 }

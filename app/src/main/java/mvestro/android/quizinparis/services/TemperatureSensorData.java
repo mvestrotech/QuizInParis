@@ -1,4 +1,4 @@
-package mvestro.android.quizinparis.model;
+package mvestro.android.quizinparis.services;
 
 public class TemperatureSensorData {
 

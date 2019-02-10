@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import mvestro.android.quizinparis.R;
-import mvestro.android.quizinparis.controller.GameActivity;
+import mvestro.android.quizinparis.Activity.GameActivity;
 
 public class GridFragment extends Fragment {
 
@@ -42,55 +42,14 @@ public class GridFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_grid, container, false);
-        Button ArrayButton[] = null;
-        String arr;
 
         mBtnP1 = (Button) view.findViewById(R.id.activity_paris_1);
-        mBtnP2 = (Button) view.findViewById(R.id.activity_paris_2);
-        mBtnP3 = (Button) view.findViewById(R.id.activity_paris_3);
-        mBtnP4 = (Button) view.findViewById(R.id.activity_paris_4);
-        mBtnP5 = (Button) view.findViewById(R.id.activity_paris_5);
-        mBtnP6 = (Button) view.findViewById(R.id.activity_paris_6);
-        mBtnP7 = (Button) view.findViewById(R.id.activity_paris_7);
-        mBtnP8 = (Button) view.findViewById(R.id.activity_paris_8);
-        mBtnP9 = (Button) view.findViewById(R.id.activity_paris_9);
-        mBtnP10 = (Button) view.findViewById(R.id.activity_paris_10);
-        mBtnP11 = (Button) view.findViewById(R.id.activity_paris_11);
-        mBtnP12 = (Button) view.findViewById(R.id.activity_paris_12);
-        mBtnP13 = (Button) view.findViewById(R.id.activity_paris_13);
-        mBtnP14 = (Button) view.findViewById(R.id.activity_paris_14);
-        mBtnP15 = (Button) view.findViewById(R.id.activity_paris_15);
-        mBtnP16 = (Button) view.findViewById(R.id.activity_paris_16);
-        mBtnP17 = (Button) view.findViewById(R.id.activity_paris_17);
-        mBtnP18 = (Button) view.findViewById(R.id.activity_paris_18);
-        mBtnP19 = (Button) view.findViewById(R.id.activity_paris_19);
-        mBtnP20 = (Button) view.findViewById(R.id.activity_paris_20);
 
+        mBtnP1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        mBtnP7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
-                String arrId = "7";
-                gameActivityIntent.putExtra("ARR", arrId);
-                startActivity(gameActivityIntent);
-            }
-        });
-        mBtnP8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
-                String arrId = "8";
-                gameActivityIntent.putExtra("ARR", arrId);
-                startActivity(gameActivityIntent);
-            }
-        });
-        mBtnP18.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gameActivityIntent = new Intent(getActivity(),GameActivity.class);
-                String arrId = "18";
-                gameActivityIntent.putExtra("ARR", arrId);
                 startActivity(gameActivityIntent);
             }
         });

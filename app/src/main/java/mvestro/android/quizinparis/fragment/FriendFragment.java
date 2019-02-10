@@ -1,5 +1,7 @@
 package mvestro.android.quizinparis.fragment;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,9 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import mvestro.android.quizinparis.R;
-import mvestro.android.quizinparis.model.HttpHandler;
+import mvestro.android.quizinparis.services.HttpHandler;
+
 
 
 public class FriendFragment extends Fragment {

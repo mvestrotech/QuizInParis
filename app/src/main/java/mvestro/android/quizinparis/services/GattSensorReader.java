@@ -27,7 +27,7 @@ public class GattSensorReader implements ISensorReader {
         synchronized (synchObj) {
             try {
                 // wait max 15 seconds for the callback to retrieve the data from the sensor
-                synchObj.wait(15000);
+                synchObj.wait(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

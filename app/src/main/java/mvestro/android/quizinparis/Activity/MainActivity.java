@@ -1,4 +1,4 @@
-package mvestro.android.quizinparis.controller;
+package mvestro.android.quizinparis.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,18 +17,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import mvestro.android.quizinparis.fragment.PresenceFragment;
 import mvestro.android.quizinparis.R;
+import mvestro.android.quizinparis.fragment.CamFragment;
 import mvestro.android.quizinparis.fragment.FriendFragment;
 import mvestro.android.quizinparis.fragment.GridFragment;
 import mvestro.android.quizinparis.fragment.TemperatureFragment;
-import mvestro.android.quizinparis.fragment.VideoFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     public static String TAG;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 
@@ -100,9 +101,13 @@ public class MainActivity extends AppCompatActivity
 
             fragment = new TemperatureFragment();
 
-        }else if (id == R.id.nav_video) {
+        } else if (id == R.id.nav_cam) {
 
-            fragment = new VideoFragment();
+            fragment = new CamFragment();
+
+        } else if (id == R.id.nav_pres) {
+
+            fragment = new PresenceFragment();
 
         }
 
